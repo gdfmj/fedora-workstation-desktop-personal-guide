@@ -1,0 +1,38 @@
+body{
+    font-family: "Raleway", sans-serif;
+    background-color: #353535ff;
+}
+
+h1, h2, h3, h4, h5 {
+    color: #fafafaff;
+}
+
+a {
+    color: #ff3737ff;
+}
+
+p, ul, ol {
+    color: #f2f2f2ff;
+}
+
+code {
+    background-color: #000000ff;
+    color: #ffffffff;
+}
+
+.highlight {
+    background-color: #000000ff;
+}
+
+.markdown-body code, .markdown-body tt {
+    background-color: #000000ff;
+}
+
+.markdown-body .highlight pre, .markdown-body pre {
+    background-color: #000000ff;
+}
+
+::selection {
+    background-color: #ff3737ff;
+    color: #fafafaff;
+}
