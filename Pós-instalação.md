@@ -24,6 +24,7 @@
 * [Sofwares Extras](#sofwares-extras);
 * [Compatibilidade do 8Bitdo Ultimate](#adicionar-a-compatibilidade-do-controle-8bitdo-ultimate);
 * [Configurar a partição de arquivos locais](#configurar-a-partição-de-arquivos-locais);
+* [Instalar a IA Local](#instalar-a-ia-local-com-ollamaramalama)
 * [Desligar/Reiniciar via Terminal](#desligarreiniciar-via-terminal).
 
 -------------------
@@ -51,7 +52,7 @@ $ sudo dnf install -y --allowerasing --best https://download1.rpmfusion.org/free
 Agora vamos fazer a instalação dos pacotes rpm de aplicativos que serão melhor aproveitados em nossa curadoria:
 
 ```
-$ sudo dnf install -y --allowerasing --best ffmpeg openssl playonlinux mangohud vkmark goverlay samba ostree libappstream-glib waydroid
+$ sudo dnf install -y --allowerasing --best ffmpeg openssl playonlinux mangohud vkmark goverlay samba ostree libappstream-glib waydroid ramalama alpaca nvtop
 ```
 ```
 $ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x cura blender inkscape prusa-slicer micropython mu thonny evolution quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
@@ -276,6 +277,14 @@ $ rm -r ~/Documentos ~/Imagens ~/Músicas ~/Vídeos && ln -s /mnt/local-drive/Do
 ```
 
 Para o compartilhamento dos arquivos locais na rede, [configurar o Samba](./Configuração-do-Samba.md). Mas antes, finalizar as primeiras configurações.
+
+## Instalar a IA Local com Ollama/Ramalama
+
+Rodar no Terminal:
+
+```
+$ ramalama run deepseek-r1
+```
 
 ## Desligar/Reiniciar via Terminal
 
