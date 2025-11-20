@@ -52,11 +52,7 @@ $ sudo dnf install -y --allowerasing --best https://download1.rpmfusion.org/free
 Agora vamos fazer a instalação dos pacotes rpm de aplicativos que serão melhor aproveitados em nossa curadoria:
 
 ```
-<<<<<<< HEAD
-$ sudo dnf install -y --allowerasing --best ffmpeg openssl bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ramalama alpaca nvtop
-=======
-$ sudo dnf install -y --allowerasing --best ffmpeg openssl playonlinux mangohud vkmark goverlay samba ostree libappstream-glib waydroid ramalama alpaca nvtop input-remapper
->>>>>>> b0ad169f28d89441e75c64fd6e5b81978b759141
+$ sudo dnf install -y --allowerasing --best ffmpeg openssl bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ramalama alpaca nvtop input-remapper
 ```
 ```
 $ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x cura blender inkscape prusa-slicer micropython mu thonny evolution quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
