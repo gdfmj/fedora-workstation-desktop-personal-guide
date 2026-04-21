@@ -52,13 +52,13 @@ $ sudo dnf install -y --allowerasing --best https://download1.rpmfusion.org/free
 Agora vamos fazer a instalação dos pacotes rpm de aplicativos que serão melhor aproveitados em nossa curadoria:
 
 ```
-$ sudo dnf install -y --allowerasing --best ffmpeg openssl bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ramalama alpaca nvtop input-remapper
+$ sudo dnf install -y --allowerasing --best ffmpeg openssl bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ollama alpaca nvtop input-remapper
 ```
 ```
-$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x cura blender inkscape prusa-slicer micropython mu thonny evolution quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
+$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x blender inkscape krita prusa-slicer micropython mu evolution quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
 ```
 ```
-$ sudo flatpak install -y org.gtk.Gtk3theme.Adwaita-dark flathub com.vscodium.codium flathub com.wps.Office
+$ sudo flatpak install -y org.gtk.Gtk3theme.Adwaita-dark flathub com.vscodium.codium flathub com.unity.UnityHub
 ```
 
 ## Instalar Temas e Alterar Aparência
