@@ -52,13 +52,13 @@ $ sudo dnf install -y --allowerasing --best https://download1.rpmfusion.org/free
 Agora vamos fazer a instalação dos pacotes rpm de aplicativos que serão melhor aproveitados em nossa curadoria:
 
 ```
-$ sudo dnf install -y --allowerasing --best ffmpeg openssl bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ollama alpaca nvtop input-remapper
+$ sudo dnf install -y --allowerasing --best ffmpeg bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ollama nvtop input-remapper
 ```
 ```
-$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x blender inkscape krita prusa-slicer micropython mu evolution quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
+$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x blender inkscape krita prusa-slicer micropython mu thunderbird quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
 ```
 ```
-$ sudo flatpak install -y org.gtk.Gtk3theme.Adwaita-dark flathub com.vscodium.codium flathub com.unity.UnityHub
+$ sudo flatpak install -y org.gtk.Gtk3theme.Adwaita-dark flathub com.vscodium.codium flathub com.unity.UnityHub com.jeffser.Alpaca
 ```
 
 ## Instalar Temas e Alterar Aparência
@@ -76,12 +76,30 @@ $ gsettings set org.gnome.desktop.interface cursor-size 48
 Baixar e instalar temas:
 
 ```
-$ cd ~/Downloads && sudo git clone https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /usr/share/icons/Papirus && sudo git clone https://github.com/kouros17/Adwaita-Maia-Dark.git /usr/share/themes/Adwaita-Maia-Dark && sudo git clone https://github.com/axxapy/Adwaita-dark-gtk2.git /usr/share/themes/Adwaita-Dark
+$ sudo dnf install -y papirus-icon-theme && sudo git clone https://github.com/kouros17/Adwaita-Maia-Dark.git /usr/share/themes/Adwaita-Maia-Dark && sudo git clone https://github.com/axxapy/Adwaita-dark-gtk2.git /usr/share/themes/Adwaita-Dark
 ```
 
 #### Ícones: 
 
 * [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
+
+Para utilizar as pastas coloridas do tema no Nautilus, é preciso instalar o `papirus-folders` com o comando:
+
+```
+$ wget -qO- https://git.io/papirus-folders-install | sh
+```
+
+Podemos ver as cores disponíveis rodando:
+
+```
+$ papirus-folders -l
+```
+
+E para trocar manualmente, escolhemos a cor `carmine` e a variação `Papirus-Dark` do tema como exemplo no comando abaixo:
+
+```
+$ papirus-folders -C carmine -t Papirus-Dark
+```
 
 #### Widgets:
 
@@ -110,6 +128,7 @@ Instalar as extensões do GNOME, [baixando do site](https://extensions.gnome.org
 * No overview at start-up;
 * GSConnect;
 * Removable Drive Menu;
+* Papirus Folders Colorizer;
 * Replace Activities text with username.
 
 ## Adicionar/Remover Aplicativos no Menu
@@ -139,7 +158,7 @@ $ onedrive --sync
 Seguir as instruções impressas no terminal para vinculação da conta e esperar o download dos arquivos e diretórios do servidor. Ao finalizar, é necessário configurar a sincronização automática ao iniciar uma nova sessão com o usuário. Para isso, rode no terminal:
 
 ```
-$ sudo mkdir ~/.config/autostart/ && sudo leafpad ~/.config/autostart/OneDrive-autostart-sync.desktop
+$ sudo mkdir ~/.config/autostart/ && sudo gnome-text-editor ~/.config/autostart/OneDrive-autostart-sync.desktop
 ```
 
 Na tela do leafpad, escreva o seguinte conteúdo (é recomendada a [instalação dos ícones Papirus](#ícones)):
@@ -172,7 +191,7 @@ Editar o arquivo com as seguintes informações:
 [Desktop Entry]
 Name=Arduino IDE
 Comment=IDE para programação de microcontroladores.
-Icon=/usr/share/icons/Papirus/Papirus/128x128/apps/arduino.svg
+Icon=/usr/share/icons/Papirus/128x128/apps/arduino.svg
 Type=Application
 Categories=Software;
 
@@ -259,7 +278,7 @@ $ sudo udevadm control --reload
 
 * Desativar a opção 'Padrões de sessão de usuário' e confirmar se está ativa a caixa de seleção 'Montar ao inicializar o sistema'.
 
-* Com a caixa ativa, escrever 'local-drive' em nome de exibição, definir um ponto de montagem e escolher a opção 'LABEL=Local Drive' em 'Identificar como'.
+* Com a caixa ativa, escrever `Local Drive` em nome de exibição, definir o ponto de montagem como `/mnt/local-drive` e escolher a opção 'LABEL=Local Drive' em 'Identificar como'.
 
 * Deslogar e logar novamente para conferir as modificações.
 
@@ -278,12 +297,19 @@ $ rm -r ~/Documentos ~/Imagens ~/Músicas ~/Vídeos && ln -s /mnt/local-drive/Do
 
 Para o compartilhamento dos arquivos locais na rede, [configurar o Samba](./Configuração-do-Samba.md). Mas antes, finalizar as primeiras configurações.
 
-## Instalar a IA Local com Ollama/Ramalama
+## Instalar as IAs Locais com Alpaca
 
-Rodar no Terminal:
+Iniciar o `alpaca`, seguir o passo a passo e instalar os modelos:
+
+* Llama3.1 (8B);
+* Llama3.2 Vision (11B);
+* Deepseek R1 (14B);
+* Qwen2.5 Coder (14B).
+
+Ao terminar a instalação, checar se as IAs estão rodando localmente, monitorando o desempenho da GPU com o `nvtop`, clicando no aplicativo ou rodando direto via comando:
 
 ```
-$ ramalama run deepseek-r1
+$ nvtop
 ```
 
 ## Desligar/Reiniciar via Terminal
