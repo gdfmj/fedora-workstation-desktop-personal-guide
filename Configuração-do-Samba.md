@@ -114,7 +114,7 @@ Criar um usuário para acessar os diretórios compartilhados é uma opção para
 Uma outra opção é agrupar usuários em grupos específicos:
 
 ```
-# groupadd sambagroup --users sambauser
+# groupadd sambagroup --users sambauser,sambauser0,sambauser1
 ```
 
 Os usuários podem receber senhas específicas para acesso ao samba:
