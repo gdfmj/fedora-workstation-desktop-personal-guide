@@ -20,9 +20,7 @@
 * [Primeiros Passos](#primeiros-passos);
 * [Ativar/Desativar a entrada de Joystick](#ativardesativar-a-entrada-de-joystick);
 * [Instalando uma loja de aplicativos](#instalando-uma-loja-de-aplicativos);
-
-<!--
-* [Compartilhamento de pastas e arquivos com o Host Linux](#compartilhamento-de-pastas-e-arquivos-com-o-host-linux) -->
+* [Compartilhamento de pastas e arquivos com o Host Linux](#compartilhamento-de-pastas-e-arquivos-com-o-host-linux)
 * [Desinstalando e corrigindo falhas](#desinstalando-e-corrigindo-falhas).
 
 -------------------
