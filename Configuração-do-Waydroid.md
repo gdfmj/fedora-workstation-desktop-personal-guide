@@ -15,6 +15,19 @@
 
 # Guia #3: Configuração do Waydroid
 
+Índice:
+
+* [Primeiros Passos](#primeiros-passos);
+* [Ativar/Desativar a entrada de Joystick](#ativardesativar-a-entrada-de-joystick);
+* [Instalando uma loja de aplicativos](#instalando-uma-loja-de-aplicativos);
+
+<!--
+* [Compartilhamento de pastas e arquivos com o Host Linux](#compartilhamento-de-pastas-e-arquivos-com-o-host-linux) -->
+* [Desinstalando e corrigindo falhas](#desinstalando-e-corrigindo-falhas).
+
+-------------------
+## Primeiros Passos
+
 Antes de tudo é necessário [ter instalado o `waydroid`](./Pós-instalação.md#softwares). Caso ainda não tenha, digite no terminal:
 
 ```
@@ -38,7 +51,7 @@ Preencher as seguintes configurações:
 ```
 	System OTA: https://ota.waydro.id/system
 	Vendor OTA: https://ota.waydro.id/vendor
-	Android Type: VANILLA
+	Android Type: Minimal Android
 ```
 	
 O sistema será baixado e instalado em um container. Ao terminar, clicar em Done, sair do terminal e inicializar o Waydroid pelo Menu.
@@ -60,7 +73,15 @@ Rodar o comando para ativar o modo multi-windows:
 $ waydroid prop set persist.waydroid.multi_windows true
 ```
 
-Para o controle [8bitdo Ultimate](./Pós-instalação.md#adicionar-a-compatibilidade-do-controle-8bitdo-ultimate) ser reconhecido no WayDroid (ainda não funciona bem em todos os apps), rodar no terminal após iniciar o programa:
+Terminar a sessão do Waydroid e reiniciar pela interface gráfica com as novas configurações de janela:
+
+```
+$ waydroid session stop
+```
+
+## Ativar/Desativar a entrada de Joystick
+
+Para o controle [8bitdo Ultimate](./Pós-instalação.md#adicionar-a-compatibilidade-do-controle-8bitdo-ultimate) ou outras entradas de joystick serem reconhecidos no WayDroid (ainda não funciona bem em todos os apps), rodar no terminal ao iniciar o programa:
 
 ```
 $ waydroid prop set persist.waydroid.uevent true
@@ -70,13 +91,51 @@ $ waydroid prop set persist.waydroid.uevent true
 $ waydroid prop set persist.waydroid.udev true
 ```
 
-Terminar a sessão do Waydroid para reiniciar com as novas configurações de janela:
+Devemos desativar essa configuração quando não utilizarmos os controles para não ter interferência das entradas dos botões em outros usos do Waydroid:
+
+```
+$ waydroid prop set persist.waydroid.uevent false
+```
+
+```
+$ waydroid prop set persist.waydroid.udev false
+```
+
+Rodar sempre o comando para encerrar a sessão e depois reiniciar pela interface gráfica com as novas configurações:
 
 ```
 $ waydroid session stop
 ```
 
-Entrar no terminal como super usuário:
+## Instalando uma loja de aplicativos
+
+Para a instalação de aplicativos, podem ser instalados qualquer um com a extensão `.apk` . No entanto é recomendado a instalação de uma loja, no caso a [Aurora Store](https://auroraoss.com/downloads/AuroraStore/Release/)
+<!--
+##### OBS.: Devido a um bug, a melhor versão para instalação do Aurora OSS é a 4.2.5, não mais disponível no repositório oficial do site. Portanto, até que este bug seja corrigido, sugere-se utilizar a [versão 47](https://web.archive.org/web/20230730213239/https://f-droid.org/repo/com.aurora.store_47.apk)
+
+No terminal, rodamos:
+
+```
+$ wget -O ~/Downloads/aurora.apk https://web.archive.org/web/20230730213239/https://f-droid.org/repo/com.aurora.store_47.apk
+```
+-->
+Após baixar a imagem da Aurora Store, instalamos:
+
+```
+$ waydroid app install ~/Downloads/aurora.apk
+```
+
+Podemos instalar alguns aplicativos como:
+
+* Termux;
+* Gerenciador de Arquivos +;
+* WhatsApp.
+
+## Compartilhamento de pastas e arquivos com o Host Linux
+
+<!-- Método #1 FAILED -->
+<!--
+Para linkar os diretórios do usuário host com o usuário do Waydroid, podemos começar entrando no terminal como super usuário:
 
 ```
 $ sudo su
@@ -87,22 +146,96 @@ Verificar se o terminal está na pasta /home/$USER e linkar os diretórios de us
 ```
 # rm -r ./.local/share/waydroid/data/media/0/Documents ./.local/share/waydroid/data/media/0/Pictures ./.local/share/waydroid/data/media/0/Music ./.local/share/waydroid/data/media/0/Movies ./.local/share/waydroid/data/media/0/Download && cd ./.local/share/waydroid/data/media/0/ && ln -s /mnt/local-drive/Documentos/ -T Documents && ln -s /mnt/local-drive/Imagens/ -T Pictures && ln -s /mnt/local-drive/Músicas/ -T Music && ln -s /mnt/local-drive/Vídeos/ -T Movies && ln -s /home/$USER/Downloads/ -T Download && cd
 ```
+-->
 
-Para a instalação de aplicativos, podem ser instalados qualquer um com a extensão `.apk` . No entanto é recomendado a instalação de uma loja, no caso a [Aurora Store](https://auroraoss.com/downloads/AuroraStore/Release/)
+<!-- Método #2 -->
 
-##### OBS.: Devido a um bug, a melhor versão para instalação do Aurora OSS é a 4.2.5, não mais disponível no repositório oficial do site. Portanto, até que este bug seja corrigido, sugere-se utilizar a [versão 47](https://web.archive.org/web/20230730213239/https://f-droid.org/repo/com.aurora.store_47.apk)
-
-No terminal, rodamos:
-
-```
-$ wget -O ~/Downloads/aurora.apk https://web.archive.org/web/20230730213239/https://f-droid.org/repo/com.aurora.store_47.apk
-```
-	
-Após baixar a imagem da Aurora Store, instalamos:
+Para criar um atalho para o diretório em que os arquivos de usuário do Waydroid são salvos no host do Linux, criar o diretório onde vai ser montado o atalho:
 
 ```
-$ waydroid app install ~/Downloads/aurora.apk
+$ mkdir ~/Waydroid
 ```
+
+Dar permissões para todos no diretório do Waydroid:
+
+```
+$ chmod 777 -R ~/.local/share/waydroid/data/media/0
+```
+
+Instalar o `bindfs` para montar o atalho:
+
+```
+$ sudo dnf install bindfs
+```
+
+Para possibilitar a leitura e escrita nos arquivos em ambos os usuários, é necessário criar as permissões correspondentes aos UIDs (User IDs) de ambos. Para isso, rodar tanto no terminal do host quanto no Termux do Waydroid o seguinte comando e anotar a saída:
+
+```
+$ id -u
+```
+
+Mapear os atalhos com `bindfs`, dando as permissões necessárias, substituindo os UIDs padrões (Waydroid: `101000` e Host: `1000`):
+
+```
+$ sudo bindfs  --map=101000/1000:@101000/@1000 --perms=u+rwX,g+rwX,o+rwX --create-with-perms=u+rwX,g+rwX,o+rwX $HOME/.local/share/waydroid/data/media/0/ $HOME/Waydroid
+```
+
+Agora vamos automatizar a montagem desse atalho quando a sessão de usuário for iniciada. Para isso criamos o diretório `~/.config/systemd/user`:
+
+```
+$ mkdir -p ~/.config/systemd/user
+```
+
+Criar um arquivo `waydroid-bindfs.service` para conter os parâmetros dessa inicialização:
+
+```
+$ gnome-text-editor ~/.config/systemd/user/waydroid-bindfs.service
+```
+
+Escreva os seguintes parâmetros, modificando os comandos conforme necessário para as UIDs obtidas:
+
+```
+[Unit]
+Description=Automated Bindfs Mount for Waydroid Sharing
+After=default.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/sleep 3
+ExecStart=/usr/bin/bindfs -f --map=101000/1000:@101000/@1000 --perms=u+rwX,g+rwX,o+rwX --create-with-perms=u+rwX,g+rwX,o+rwX %h/.local/share/waydroid/data/media/0/ %h/Waydroid
+ExecStop=/usr/bin/fusermount3 -u %h/Waydroid
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+```
+
+Agora precisamos recarregar o daemon do `systemd`:
+
+```
+$ systemctl --user daemon-reload
+```
+
+Habilitaremos o serviço para rodar a cada boot:
+
+```
+$ systemctl --user enable waydroid-bindfs.service
+```
+
+E iniciaremos o serviço para testes:
+
+```
+$ systemctl --user start waydroid-bindfs.service
+```
+
+Para checar o status do serviço configurado:
+
+```
+$ systemctl --user status waydroid-bindfs.service
+```
+
+
+## Desinstalando e corrigindo falhas
 
 Para desinstalar o Waydroid e corrigir bugs, seguir as instruções:
 
@@ -112,7 +245,7 @@ Para desinstalar o Waydroid e corrigir bugs, seguir as instruções:
 # systemctl stop waydroid-container.service
 ```
 
-2. Limpe os arquivos instalados no linux:
+2. Saia do superusuário com `# exit` e limpe os arquivos instalados no linux:
 
 ```
 $ sudo rm -rf /var/lib/waydroid /home/.waydroid ./waydroid ./.share/waydroid ./.local/share/applications/*waydroid* ./.local/share/waydroid
@@ -171,7 +304,7 @@ Se quiser apenas resetar para solução geral de problemas:
 ```
 	System OTA: https://ota.waydro.id/system
 	Vendor OTA: https://ota.waydro.id/vendor
-	Android Type: VANILLA
+	Android Type: Minimal Android
 ```
 ----------------
 ### [Fontes e Referências](https://docs.waydro.id)
