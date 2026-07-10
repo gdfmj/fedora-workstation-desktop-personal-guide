@@ -263,11 +263,11 @@ $ sudo udevadm control --reload
 
 * Clicar no botão de engrenagens 'Opções adicionais de partição' e selecionar a opção 'Editar opções de montagem'.
 
-* Desativar a opção 'Padrões de sessão de usuário' e confirmar se está ativa a caixa de seleção 'Montar ao inicializar o sistema'.
+* Desativar a opção 'Padrões de sessão de usuário', confirmar se está ativa a caixa de seleção 'Montar ao inicializar o sistema' e desmarcar a opção 'Exibir na interface do usuário'.
 
 * Com a caixa ativa, escrever `Local Drive` em nome de exibição, definir o ponto de montagem como `/mnt/local-drive` e escolher a opção 'LABEL=Local Drive' em 'Identificar como'.
 
-* Deslogar e logar novamente para conferir as modificações.
+* Reiniciar para conferir as modificações.
 
 No terminal, definir permissões de leitura e escrita a todos usuários:
 ```

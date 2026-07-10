@@ -57,6 +57,7 @@ O sistema será baixado e instalado em um container. Ao terminar, clicar em Done
 Configurar o Waydroid na primeira inicialização:
 * Adotar o tema escuro;
 * Trocar o fuso horário;
+* Configurar ícones da barra de status;
 * Escolher o teclado adequado, idioma português brasileiro e desativar o teclado virtual.
 
 Fechar a janela do sistema e iniciar a sessão do Waydroid via terminal:
@@ -157,7 +158,7 @@ $ mkdir ~/Waydroid
 Instalar o `bindfs` para montar o atalho:
 
 ```
-$ sudo dnf install bindfs
+$ sudo dnf install -y bindfs
 ```
 
 Para possibilitar a leitura e escrita nos arquivos na pasta montada, é necessário espelhar com o UID (User ID) correspondente. Para descobrir o UID do Host, rodar no terminal o seguinte comando e anotar a saída:
