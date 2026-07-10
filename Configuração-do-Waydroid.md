@@ -154,84 +154,41 @@ Para criar um atalho para o diretório em que os arquivos de usuário do Waydroi
 $ mkdir ~/Waydroid
 ```
 
-Dar permissões para todos no diretório do Waydroid:
-
-```
-$ chmod 777 -R ~/.local/share/waydroid/data/media/0
-```
-
 Instalar o `bindfs` para montar o atalho:
 
 ```
 $ sudo dnf install bindfs
 ```
 
-Para possibilitar a leitura e escrita nos arquivos em ambos os usuários, é necessário criar as permissões correspondentes aos UIDs (User IDs) de ambos. Para isso, rodar tanto no terminal do host quanto no Termux do Waydroid o seguinte comando e anotar a saída:
+Para possibilitar a leitura e escrita nos arquivos na pasta montada, é necessário espelhar com o UID (User ID) correspondente. Para descobrir o UID do Host, rodar no terminal o seguinte comando e anotar a saída:
 
 ```
 $ id -u
 ```
 
-Mapear os atalhos com `bindfs`, dando as permissões necessárias, substituindo os UIDs padrões (Waydroid: `101000` e Host: `1000`):
+O comando correspondente para fazer a montagem da pasta com `bindfs`, substituindo o UID padrão do exemplo (`1000`) pelo correspondente caso seja necessário é:
 
 ```
-$ sudo bindfs  --map=101000/1000:@101000/@1000 --perms=u+rwX,g+rwX,o+rwX --create-with-perms=u+rwX,g+rwX,o+rwX $HOME/.local/share/waydroid/data/media/0/ $HOME/Waydroid
+$ sudo bindfs  --mirror=1000 ~/.local/share/waydroid/data/media/0/ ~/Waydroid
 ```
 
-Agora vamos automatizar a montagem desse atalho quando a sessão de usuário for iniciada. Para isso criamos o diretório `~/.config/systemd/user`:
+Porém, podemos automatizar a montagem desse atalho quando a sessão de usuário for iniciada. Para isso modificamos o arquivo `/etc/fstab`:
 
 ```
-$ mkdir -p ~/.config/systemd/user
+$ sudo gnome-text-editor /etc/fstab
 ```
 
-Criar um arquivo `waydroid-bindfs.service` para conter os parâmetros dessa inicialização:
+O arquivo deve conter as instruções para a montagem de algumas partições. Devemos adicionar uma linha ao final contendo os seguintes parâmetros, lembrando de substituir os diretórios de usuário do exemplo (`/home/user/`) e a UID (`1000`) para o correspondente:
 
 ```
-$ gnome-text-editor ~/.config/systemd/user/waydroid-bindfs.service
-```
-
-Escreva os seguintes parâmetros, modificando os comandos conforme necessário para as UIDs obtidas:
-
-```
-[Unit]
-Description=Automated Bindfs Mount for Waydroid Sharing
-After=default.target
-
-[Service]
-Type=simple
-ExecStartPre=/usr/bin/sleep 3
-ExecStart=/usr/bin/bindfs -f --map=101000/1000:@101000/@1000 --perms=u+rwX,g+rwX,o+rwX --create-with-perms=u+rwX,g+rwX,o+rwX %h/.local/share/waydroid/data/media/0/ %h/Waydroid
-ExecStop=/usr/bin/fusermount3 -u %h/Waydroid
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
+/home/user/.local/share/waydroid/data/media/0 /home/user/Waydroid fuse.bindfs mirror=1000,allow_other,x-gvfs-hide,noatime 0 0
 ```
 
 Agora precisamos recarregar o daemon do `systemd`:
 
 ```
-$ systemctl --user daemon-reload
+$ systemctl daemon-reload
 ```
-
-Habilitaremos o serviço para rodar a cada boot:
-
-```
-$ systemctl --user enable waydroid-bindfs.service
-```
-
-E iniciaremos o serviço para testes:
-
-```
-$ systemctl --user start waydroid-bindfs.service
-```
-
-Para checar o status do serviço configurado:
-
-```
-$ systemctl --user status waydroid-bindfs.service
-```
-
 
 ## Desinstalando e corrigindo falhas
 

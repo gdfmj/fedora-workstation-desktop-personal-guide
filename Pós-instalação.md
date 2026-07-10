@@ -19,12 +19,12 @@
 
 * [Softwares](#softwares);
 * [Instalar Temas e Alterar Aparência](#instalar-temas-e-alterar-aparência);
-* [Adicionar/Remover Aplicativos no Menu](#adicionarremover-ícones-de-aplicativos-do-menu)
-* [Configurar o OneDrive](#configurar-o-one-drive);
+* [Adicionar/Remover Aplicativos no Menu](#adicionarremover-ícones-de-aplicativos-do-menu);
 * [Sofwares Extras](#sofwares-extras);
 * [Compatibilidade do 8Bitdo Ultimate](#adicionar-a-compatibilidade-do-controle-8bitdo-ultimate);
 * [Configurar a partição de arquivos locais](#configurar-a-partição-de-arquivos-locais);
-* [Instalar a IA Local](#instalar-a-ia-local-com-ollamaramalama)
+* [Instalar a IA Local](#instalar-a-ia-local-com-ollamaramalama);
+<!-- * [Configurar o OneDrive](#configurar-o-one-drive); -->
 * [Desligar/Reiniciar via Terminal](#desligarreiniciar-via-terminal).
 
 -------------------
@@ -34,7 +34,7 @@
 Vamos rodar no terminal um código para limpar os aplicativos que não serão usados, pois serão substituidos por outros de nossa preferência:
 
 ```
-$ sudo dnf remove -y gnome-contacts gnome-clocks gnome-maps rhythmbox totem gnome-tour baobab
+$ sudo dnf remove -y gnome-contacts gnome-clocks gnome-maps gnome-tour showtime
 ```
 
 Após a limpeza de aplicativos, vamos atualizar os aplicativos restantes:
@@ -95,10 +95,16 @@ Podemos ver as cores disponíveis rodando:
 $ papirus-folders -l
 ```
 
-E para trocar manualmente, escolhemos a cor `carmine` e a variação `Papirus-Dark` do tema como exemplo no comando abaixo:
+Podemos utilizar a extensão do GNOME `Papirus Folders Colorizer` para seguir as cores do sistema no Nautilus. Para trocar manualmente, escolhemos a cor `carmine` e a variação `Papirus-Dark` do tema como exemplo no comando abaixo:
 
 ```
 $ papirus-folders -C carmine -t Papirus-Dark
+```
+
+Caso obtenhamos uma mensagem de erro ao rodar o comando, ou a extensão não funcione de primeira, devemos dar permissão de execução para o `/bin/papirus-folders` com o `chmod`:
+
+```
+$ sudo chmod +x /bin/papirus-folders
 ```
 
 #### Widgets:
@@ -128,7 +134,9 @@ Instalar as extensões do GNOME, [baixando do site](https://extensions.gnome.org
 * No overview at start-up;
 * GSConnect;
 * Removable Drive Menu;
+* Maximize Window Into New Workspace;
 * Papirus Folders Colorizer;
+* App Grid Tuner;
 * Replace Activities text with username.
 
 ## Adicionar/Remover Aplicativos no Menu
@@ -147,39 +155,13 @@ $ sudo gnome-text-editor /usr/share/applications/libreoffice-startcenter.desktop
 
 Procurando a linha de entrada com o parâmetro `NoDisplay=true`, alternaremos para `NoDisplay=false`. Quando não houver nenhuma linha de entrada com o mesmo parâmetro é só adicionar manualmente.
 
-## Configurar o One Drive
-
-Rode no terminal:
-
-```
-$ onedrive --sync
-```
-
-Seguir as instruções impressas no terminal para vinculação da conta e esperar o download dos arquivos e diretórios do servidor. Ao finalizar, é necessário configurar a sincronização automática ao iniciar uma nova sessão com o usuário. Para isso, rode no terminal:
-
-```
-$ sudo mkdir ~/.config/autostart/ && sudo gnome-text-editor ~/.config/autostart/OneDrive-autostart-sync.desktop
-```
-
-Na tela do leafpad, escreva o seguinte conteúdo (é recomendada a [instalação dos ícones Papirus](#ícones)):
-
-```
-[Desktop Entry]
-
-Type=Application
-Exec=onedrive --sync
-Name=OneDrive Autostart Sync
-Comment=Execute a command to run an OneDrive synchronization at autostart session
-Icon=/usr/share/icons/Papirus/Papirus/128x128/apps/ms-onedrive.svg
-```
-
 ## Sofwares Extras
 
 No navegador principal, entrar nos site oficiais para baixar os seguintes programas: 'Arduino IDE' e 'Pokerstars'.
 
 ### Arduino IDE
 
-Baixar a versão para linux em formato `.zip` e descompactar no diretório `/opt/`. [Criar o ícone de inicialização no menu](#adicionarremover-ícones-de-aplicativos-do-menu) por meio do arquivo `.desktop` no diretório `/usr/share/applications` :
+Baixar a versão para linux em formato `.zip` e descompactar no diretório home do usuário (ex: `/home/user/Arduino`). [Criar o ícone de inicialização no menu](#adicionarremover-ícones-de-aplicativos-do-menu) por meio do arquivo `.desktop` no diretório `/usr/share/applications` :
 
 ```
 $ sudo gnome-text-editor /usr/share/applications/arduino.desktop
@@ -191,11 +173,11 @@ Editar o arquivo com as seguintes informações:
 [Desktop Entry]
 Name=Arduino IDE
 Comment=IDE para programação de microcontroladores.
-Icon=/usr/share/icons/Papirus/128x128/apps/arduino.svg
+Icon=arduino
 Type=Application
 Categories=Software;
 
-Exec=/opt/arduino-ide/arduino-ide # Escolher o arquivo de acordo com o diretório correto em /opt/
+Exec=%h/Arduino/arduino-ide
 StartupNotify=false
 Terminal=false
 ```
@@ -242,7 +224,12 @@ E execute-o com:
 $ sh JD2Setup_x64.sh
 ```
 
-Será exibido o instalador do JDownloader 2. É só seguir os passos e instalar o programa.
+Será exibido o instalador do JDownloader 2. É só seguir os passos e instalar o programa. Para terminar, alterar os ícones para o padrão do tema usado no sistema, substituindo a linha `Icon=/path/to/icon.svg` por `Icon=jdownloader`:
+
+```
+$ gnome-text-editor ~/.local/share/applications/"JDownloader 2-0.desktop"
+ && gnome-text-editor ~/.local/share/applications/"JDownloader 2 Update & Rescue-0.desktop"
+```
 
 ## Adicionar a compatibilidade do controle 8Bitdo Ultimate
 
@@ -272,7 +259,7 @@ $ sudo udevadm control --reload
 
 ### Montar no boot a partição de arquivos locais
 
-* Entrar no `gnome-disks` e selecionar o HDD de 500GB na lista do lado esquerdo.
+* Entrar no `gnome-disks` e selecionar o dispositivo de armazenamento na lista do lado esquerdo.
 
 * Clicar no botão de engrenagens 'Opções adicionais de partição' e selecionar a opção 'Editar opções de montagem'.
 
@@ -312,10 +299,39 @@ Ao terminar a instalação, checar se as IAs estão rodando localmente, monitora
 $ nvtop
 ```
 
+<!--
+## Configurar o One Drive
+
+Rode no terminal:
+
+```
+$ onedrive --sync
+```
+
+Seguir as instruções impressas no terminal para vinculação da conta e esperar o download dos arquivos e diretórios do servidor. Ao finalizar, é necessário configurar a sincronização automática ao iniciar uma nova sessão com o usuário. Para isso, rode no terminal:
+
+```
+$ sudo mkdir ~/.config/autostart/ && sudo gnome-text-editor ~/.config/autostart/OneDrive-autostart-sync.desktop
+```
+
+Na tela do `gnome-text-editor`, escreva o seguinte conteúdo (é recomendada a [instalação dos ícones Papirus](#ícones)):
+
+```
+[Desktop Entry]
+
+Type=Application
+Exec=onedrive --sync
+Name=OneDrive Autostart Sync
+Comment=Execute a command to run an OneDrive synchronization at autostart session
+Icon=onedrive
+```
+-->
+
 ## Desligar/Reiniciar via Terminal
 
 Para cada finalização é recomendado o uso do terminal. Para desligar o PC verificando atualizações, rodar sempre:
-
+<!-- Com OneDrive -->
+<!--
 ```
 $ sudo dnf upgrade -y --allowerasing --best && onedrive --sync && poweroff
 ```
@@ -324,6 +340,17 @@ Para reboot, rode no terminal:
 
 ```
 $ sudo dnf upgrade -y --allowerasing --best && onedrive --sync && reboot
+```
+-->
+
+```
+$ sudo dnf upgrade -y --allowerasing --best && poweroff
+```
+
+Para reboot, rode no terminal:
+
+```
+$ sudo dnf upgrade -y --allowerasing --best && reboot
 ```
 
 [Voltar ao Topo](#sumário)
