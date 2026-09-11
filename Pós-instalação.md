@@ -52,10 +52,10 @@ $ sudo dnf install -y --allowerasing --best https://download1.rpmfusion.org/free
 Agora vamos fazer a instalação dos pacotes rpm de aplicativos que serão melhor aproveitados em nossa curadoria:
 
 ```
-$ sudo dnf install -y --allowerasing --best ffmpeg bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ollama nvtop input-remapper
+$ sudo dnf install -y --allowerasing --best ffmpeg bottles mangohud vkmark goverlay samba ostree libappstream-glib waydroid ollama nvtop input-remapper envision envision-monado envision-xrizer envision-wivrn mesa-vulkan-drivers mesa-vulkan-drivers.i686 mesa-dri-drivers mesa-dri-drivers.i686 xr-hardware
 ```
 ```
-$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x blender inkscape krita prusa-slicer micropython mu thunderbird quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
+$ sudo dnf install -y --allowerasing --best gnome-extensions-app gnome-tweak-tool kpat kmines kmahjongg vlc libreoffice-langpack-pt-BR projectM-pulseaudio gparted telegram-desktop chromium onedrive cpu-x blender inkscape krita prusa-slicer micropython mu thunderbird quodlibet brasero audacity soundkonverter gimp kolourpaint foliate libreoffice-draw transmission gimagereader-gtk obs-studio retroarch steam discord openshot godot
 ```
 ```
 $ sudo flatpak install -y org.gtk.Gtk3theme.Adwaita-dark flathub com.vscodium.codium flathub com.unity.UnityHub com.jeffser.Alpaca
